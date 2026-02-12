@@ -1,0 +1,37 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+    <title>API</title>
+  </head>
+  <body>
+    <div class="container">
+      <a href="https://www.tvmaze.com/api" target="_blank"
+        ><img
+          src="https://static.tvmaze.com/images/tvm-header-logo.png"
+          alt="logo"
+      /></a>
+      <input type="text" id="searchInput" placeholder="Search..." />
+    </div>
+    <p id="status"></p>
+    <div id="results" class="grid"></div>
+    <button class="startbtn">
+      <img
+        src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/up-arrow-icon.png"
+        alt="arrow"
+      />
+    </button>
+    <div id="modal" class="modal" hidden>
+      <div class="modal__panel">
+        <button id="modal-close" aria-label="Close">✕</button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+  </body>
+</html>
