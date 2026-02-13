@@ -1,10 +1,8 @@
 const searchInput = document.getElementById("searchInput");
 const results = document.getElementById("results");
 const statusText = document.getElementById("status");
-const modal = document.getElementById("modal");
-const modalContent = document.getElementById("modal-content");
-const modalClose = document.getElementById("modal-close");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
+const hero = document.querySelector(".hero");
 
 const allShowsApi = "https://api.tvmaze.com/shows";
 const searchShows = "https://api.tvmaze.com/search/shows?q=";
@@ -49,13 +47,23 @@ loadMoreBtn.addEventListener("click", function () {
 
 getAllShows();
 
+function hideHero() {
+  if (hero) hero.style.display = "none";
+}
+
+function showHero() {
+  if (hero) hero.style.display = "flex";
+}
+
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
     const value = searchInput.value.trim();
     if (value.length < 2) {
+      showHero();
       getAllShows();
     } else {
+      hideHero();
       searchMovies(value);
     }
   }
@@ -63,6 +71,7 @@ searchInput.addEventListener("keydown", (e) => {
 
 searchInput.addEventListener("input", () => {
   if (searchInput.value.trim().length === 0) {
+    showHero();
     getAllShows();
   }
 });
