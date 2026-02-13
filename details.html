@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,33 +7,23 @@
       href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="./css/media-main.css" />
-    <script src="./script/script.js" defer></script>
-    <title>API</title>
+    <link rel="stylesheet" href="css/details.css" />
+    <link rel="stylesheet" href="css/media-details.css" />
+    <script src="script/details.js" defer></script>
+    <title>Details Page</title>
   </head>
   <body>
-    <!-- header -->
     <header class="header">
       <a href="https://www.tvmaze.com/api" target="_blank"
         ><img
           src="https://static.tvmaze.com/images/tvm-header-logo.png"
           alt="logo"
       /></a>
-      <input type="text" id="searchInput" placeholder="Search..." />
+      <a href="index.html"><button>Go Back</button></a>
     </header>
+    <!-- details innerHtml -->
     <main>
-      <section class="hero">
-        <div class="hero-content">
-          <h1 class="hero-title">TVMaze Explorer</h1>
-          <p class="hero-text">Find your favorite shows in one place.</p>
-          <a href="#results"><button class="hero-btn">Explore shows</button></a>
-        </div>
-      </section>
-      <!-- status text -->
-      <p id="status"></p>
-      <!-- results grid -->
-      <div id="results" class="grid"></div>
+      <div id="details"></div>
       <!-- scroll button -->
       <button id="toTopbtn">
         <img
@@ -40,8 +31,6 @@
           alt="arrow"
         />
       </button>
-      <!-- load more button -->
-      <button id="loadMoreBtn">Load More</button>
     </main>
     <!-- footer -->
     <footer class="footer">

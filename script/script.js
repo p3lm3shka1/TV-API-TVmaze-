@@ -4,17 +4,25 @@ const statusText = document.getElementById("status");
 const modal = document.getElementById("modal");
 const modalContent = document.getElementById("modal-content");
 const modalClose = document.getElementById("modal-close");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
 
 const allShowsApi = "https://api.tvmaze.com/shows";
 const searchShows = "https://api.tvmaze.com/search/shows?q=";
 
+const pageSize = 18;
+let allMovies = [];
+let currentIndex = 0;
+
 function getAllShows() {
   results.innerHTML = "";
+  currentIndex = 0;
+
   fetch(allShowsApi)
     .then((r) => r.json())
     .then((data) => {
-      statusText.textContent = `Found movies: ${data.length}`;
-      renderMovies(data);
+      allMovies = data;
+      statusText.textContent = "Found movies: " + allMovies.length;
+      renderNextPage();
       console.log(data);
     })
     .catch((err) => {
@@ -22,6 +30,22 @@ function getAllShows() {
       console.error(err);
     });
 }
+
+function renderNextPage() {
+  const nextMovies = allMovies.slice(currentIndex, currentIndex + pageSize);
+  renderMovies(nextMovies);
+  currentIndex += pageSize;
+
+  if (currentIndex >= allMovies.length) {
+    loadMoreBtn.style.display = "none";
+  } else {
+    loadMoreBtn.style.display = "block";
+  }
+}
+
+loadMoreBtn.addEventListener("click", function () {
+  renderNextPage();
+});
 
 getAllShows();
 
@@ -46,13 +70,14 @@ searchInput.addEventListener("input", () => {
 function searchMovies(value) {
   statusText.textContent = "Searching...";
   results.innerHTML = "";
+  currentIndex = 0;
 
   fetch(searchShows + encodeURIComponent(value))
     .then((r) => r.json())
     .then((data) => {
-      const movies = data.map((item) => item.show);
-      statusText.textContent = `Found movies: ${movies.length}`;
-      renderMovies(movies);
+      allMovies = data.map((item) => item.show);
+      statusText.textContent = "Found movies: " + allMovies.length;
+      renderNextPage();
     })
     .catch((err) => {
       statusText.textContent = "Error, try again later";
@@ -61,7 +86,6 @@ function searchMovies(value) {
 }
 
 function renderMovies(movies) {
-  results.innerHTML = "";
   movies.forEach((movie) => {
     const rating = movie.rating?.average ?? "N/A";
     const year = movie.premiered ? movie.premiered.slice(0, 4) : "—";
@@ -82,58 +106,23 @@ function renderMovies(movies) {
       </div>
     `;
 
-    div.addEventListener("click", () => openModal(movie));
-    div.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") openModal(movie);
-    });
+    const imgElement = div.querySelector(".card-img");
+    if (imgElement) {
+      imgElement.addEventListener("click", function () {
+        window.location.href = "./details.html?id=" + movie.id;
+      });
+    }
 
     results.appendChild(div);
   });
 }
 
-function openModal(movie) {
-  const summary = movie.summary || "<em>No summary provided.</em>";
-  const url = movie.url || "#";
-  const img =
-    movie.image?.original ||
-    movie.image?.medium ||
-    "https://via.placeholder.com/420x600?text=No+Image";
-
-  modalContent.innerHTML = `
-    <div class="modal-layout">
-      <img class="modal-poster" src="${img}" alt="${movie.name}" />
-      <div class="modal-info">
-        <h2>${movie.name}</h2>
-        <div class="modal-body">${summary}</div>
-        <div class="modal-link">
-          <a href="${url}" target="_blank" rel="noopener">Open on TVMaze →</a>
-        </div>
-      </div>
-    </div>
-  `;
-  modal.hidden = false;
-}
-
-function closeModal() {
-  modal.hidden = true;
-  modalContent.innerHTML = "";
-}
-
-modalClose.addEventListener("click", closeModal);
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) closeModal();
-});
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeModal();
-});
-
-// Scroll-to-top button
-const startbtn = document.querySelector(".startbtn");
+const toTopbtn = document.getElementById("toTopbtn");
 
 window.addEventListener("scroll", () => {
-  startbtn.hidden = window.scrollY < 1000;
+  toTopbtn.hidden = window.scrollY < 1000;
 });
 
-startbtn.addEventListener("click", () => {
+toTopbtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });

@@ -1,57 +1,117 @@
+:root {
+  --primary-color: #63f3e3;
+  --secondary-color: #41ada2;
+  --bg-color: #141414;
+  --card-bg: #1f1f1f;
+  --text-color: #cbd5e1;
+  --neutral: white;
+  --overlay-color: rgba(0, 0, 0, 0.6);
+  --font-family: "Google Sans", sans-serif;
+  --spacing-0: 0;
+  --spacing-1: 1rem;
+  --spacing-2: 2rem;
+  --spacing-3: 3rem;
+  --spacing-4: 4rem;
+  --spacing-5: 5rem;
+  --w-full: 100%;
+}
+
 * {
-  font-family: "Google Sans", sans-serif;
+  font-family: var(--font-family);
+  scroll-behavior: smooth;
 }
 
 body {
   max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 40px;
-  background: #141414;
-  color: white;
+  width: var(--w-full);
+  margin: var(--spacing-0) auto;
+  padding: var(--spacing-2) var(--spacing-0) var(--spacing-1) var(--spacing-0);
+  background: var(--bg-color);
+  color: var(--neutral);
   position: relative;
 }
 
-.container {
+/* header */
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: var(--spacing-1);
+  margin-bottom: var(--spacing-5);
 }
 
+/* search */
 input {
-  padding: 10px;
+  padding: var(--spacing-1);
   font-size: 16px;
-  margin-top: 2rem;
   width: 300px;
   border-radius: 6px;
   border: none;
-  background: #1f1f1f;
-  color: white;
+  background: var(--card-bg);
+  color: var(--neutral);
+  border: 2px solid var(--primary-color);
 }
 
 input:focus {
-  outline: 2px solid #41ada2;
+  outline: 2px solid var(--secondary-color);
 }
 
 input::placeholder {
   color: #aaa;
 }
 
-.error {
-  color: #ff4c4c;
-  font-weight: bold;
+/* hero */
+.hero {
+  border-radius: 6px;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  padding: 60px 24px;
+  background:
+    linear-gradient(120deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)),
+    url("https://cdn.theplaylist.net/wp-content/uploads/2019/12/14194115/The-Best-TV-Shows-Mini-Series%E2%80%99-Of-2019.jpg")
+      center/cover no-repeat;
+  color: var(--neutral);
+  margin-bottom: var(--spacing-5);
 }
 
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-title {
+  font-size: 48px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.hero-text {
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.hero-btn {
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  padding: 12px 28px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* cards grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
 }
 
-/*  */
-/*  */
+/* cards */
 .card {
   cursor: pointer;
   position: relative;
@@ -76,17 +136,23 @@ input::placeholder {
 }
 
 .card-img {
-  width: 100%;
   object-fit: cover;
   display: block;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
   background: #0b1220;
 }
 
+/* card overlay */
 .card-overlay {
   position: absolute;
   inset: 0;
+  z-index: 3;
+  pointer-events: none;
   background: rgba(0, 0, 0, 0.6);
-  color: #f8fafc;
+  color: var(--neutral);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,8 +162,8 @@ input::placeholder {
   padding: 0.8rem;
   opacity: 0;
   transition:
-    opacity 160ms ease,
-    transform 160ms ease;
+    opacity 1.6s ease,
+    transform 1.6s ease;
 }
 .card:hover .card-overlay,
 .card:focus-visible .card-overlay {
@@ -109,130 +175,106 @@ input::placeholder {
 .card-meta {
   font-weight: 600;
   font-size: 14px;
-  color: #cbd5e1;
+  color: var(--text-color);
 }
 
-/*  */
-/*  */
-.startbtn {
+/* scroll button */
+#toTopbtn {
   position: fixed;
-  bottom: 0;
+  bottom: 185px;
   right: 150px;
   transform: translate(-50%, -50%);
-  padding: 1rem;
-  background: rgb(65, 173, 162);
+  padding: var(--spacing-1);
+  background: var(--primary-color);
   border: none;
   border-radius: 50%;
   cursor: pointer;
   opacity: 0.4;
 }
 
-.startbtn img {
+#toTopbtn img {
   width: 24px;
   height: 24px;
 }
 
-.startbtn:hover {
+#toTopbtn:hover {
   opacity: 0.8;
 }
 
-/*  */
-/*  */
-.modal-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 1rem;
-}
-.modal-poster {
-  width: 100%;
-  max-width: 200px;
-  border-radius: 10px;
-  object-fit: cover;
-  background: #0b1220;
-}
-.modal-info {
-  color: #e5e7eb;
-}
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(7, 11, 20, 0.75);
-  backdrop-filter: blur(6px);
-  display: grid;
-  place-items: center;
-  padding: 1.5rem;
-  z-index: 50;
-}
-.modal[hidden] {
-  display: none;
-}
-
-.modal__panel {
-  background: #0b1220;
-  border: 1px solid #1f2937;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  width: min(720px, 90vw);
-  max-height: 85vh;
-  overflow: auto;
-  position: relative;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  color: #e5e7eb;
-}
-
-#modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: 1px solid #1f2937;
-  background: #111827;
-  color: #e5e7eb;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
+/* load more button */
+#loadMoreBtn {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacing-2) auto;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  padding: 12px 28px;
+  border-radius: 2px;
   cursor: pointer;
 }
 
-.modal-body {
-  margin: 0.75rem 0;
+#loadMoreBtn:focus {
+  outline: 2px solid var(--secondary-color);
 }
-.modal-body p {
-  margin: 0.4rem 0;
+
+/* footer */
+.footer {
+  position: static;
+  margin-top: var(--spacing-5);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: flex-end;
+  background: #141414;
+  border-top: none;
+  color: #9aa4b2;
+  font-size: 14px;
 }
-.modal-link a {
-  color: #22c55e;
+
+.footer-left {
+  display: flex;
+  align-items: center;
 }
+
+.footer-logo {
+  width: var(--w-full);
+  max-width: 120px;
+}
+
+.footer-text {
+  margin: var(--spacing-0);
+  text-align: center;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-1);
+}
+
+.footer-link {
+  filter: brightness(0) saturate(100%) invert(81%) sepia(63%) saturate(381%)
+    hue-rotate(105deg) brightness(104%) contrast(91%);
+}
+
+.footer-link img {
+  width: 30px;
+}
+
+.footer-link:hover {
+  opacity: 0.7;
+}
+
+/*  */
+/*  */
 /*  */
 /*  */
 @media (max-width: 768px) {
   body {
     padding: 2rem;
     text-align: center;
-  }
-
-  a {
-    margin-bottom: 1rem;
-    align-items: center;
-  }
-
-  .container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .startbtn {
-    transform: translate(50%, -50%);
-  }
-
-  .modal {
-    padding: 1rem;
-    width: 100%;
-  }
-
-  .modal-layout {
-    grid-template-columns: 1fr;
-  }
-  .modal-poster {
-    width: 100%;
-    justify-self: center;
   }
 }
