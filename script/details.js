@@ -4,9 +4,8 @@ const api = "https://api.tvmaze.com/shows/";
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get("id");
 
-const movieCastApi = "https://api.tvmaze.com/shows/" + movieId + "/cast";
-
-const movieImagesApi = "https://api.tvmaze.com/shows/" + movieId + "/images";
+const movieCastApi = `https://api.tvmaze.com/shows/${movieId}/cast`;
+const movieImagesApi = `https://api.tvmaze.com/shows/${movieId}/images`;
 
 const castLimit = 5;
 let allCast = [];
@@ -17,7 +16,7 @@ function renderCast(limit) {
 
   const items = limit ? allCast.slice(0, limit) : allCast;
 
-  items.forEach(function (item) {
+  items.forEach((item) => {
     const actor = item.person;
     const img = actor.image && actor.image.medium ? actor.image.medium : "";
     const card = document.createElement("div");
@@ -41,7 +40,7 @@ function loadCast() {
       renderCast(castLimit);
 
       const showAllBtn = document.getElementById("showAllCastBtn");
-      showAllBtn.addEventListener("click", function () {
+      showAllBtn.addEventListener("click", () => {
         renderCast(null);
         showAllBtn.style.display = "none";
       });
@@ -52,7 +51,7 @@ function loadCast() {
 }
 
 function getMovieDetails() {
-  fetch(api + movieId)
+  fetch(`${api}${movieId}`)
     .then((response) => {
       return response.json();
     })
