@@ -19,9 +19,8 @@ function getAllShows() {
     .then((r) => r.json())
     .then((data) => {
       allMovies = data;
-      statusText.textContent = "Found movies: " + allMovies.length;
+      statusText.textContent = `Found movies: ${allMovies.length}`;
       renderNextPage();
-      console.log(data);
     })
     .catch((err) => {
       statusText.textContent = "Error, try again later";
@@ -32,7 +31,7 @@ function getAllShows() {
 function renderNextPage() {
   const nextMovies = allMovies.slice(currentIndex, currentIndex + pageSize);
   renderMovies(nextMovies);
-  currentIndex += pageSize;
+  currentIndex = currentIndex + pageSize;
 
   if (currentIndex >= allMovies.length) {
     loadMoreBtn.style.display = "none";
@@ -41,19 +40,23 @@ function renderNextPage() {
   }
 }
 
-loadMoreBtn.addEventListener("click", function () {
+function hideHero() {
+  if (hero) {
+    hero.style.display = "none";
+  }
+}
+
+function showHero() {
+  if (hero) {
+    hero.style.display = "flex";
+  }
+}
+
+loadMoreBtn.addEventListener("click", () => {
   renderNextPage();
 });
 
 getAllShows();
-
-function hideHero() {
-  if (hero) hero.style.display = "none";
-}
-
-function showHero() {
-  if (hero) hero.style.display = "flex";
-}
 
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
@@ -81,11 +84,12 @@ function searchMovies(value) {
   results.innerHTML = "";
   currentIndex = 0;
 
-  fetch(searchShows + encodeURIComponent(value))
+  fetch(`${searchShows}${encodeURIComponent(value)}`)
     .then((r) => r.json())
     .then((data) => {
-      allMovies = data.map((item) => item.show);
-      statusText.textContent = "Found movies: " + allMovies.length;
+      const movies = data.map((item) => item.show);
+      allMovies = movies;
+      statusText.textContent = `Found movies: ${allMovies.length}`;
       renderNextPage();
     })
     .catch((err) => {
@@ -96,10 +100,25 @@ function searchMovies(value) {
 
 function renderMovies(movies) {
   movies.forEach((movie) => {
-    const rating = movie.rating?.average ?? "N/A";
-    const year = movie.premiered ? movie.premiered.slice(0, 4) : "—";
-    const genres = movie.genres?.join(", ") || "—";
-    const img = movie.image?.medium ?? "";
+    let rating = "N/A";
+    if (movie.rating && movie.rating.average) {
+      rating = movie.rating.average;
+    }
+
+    let year = "—";
+    if (movie.premiered) {
+      year = movie.premiered.slice(0, 4);
+    }
+
+    let genres = "—";
+    if (movie.genres && movie.genres.length > 0) {
+      genres = movie.genres.join(", ");
+    }
+
+    let img = "";
+    if (movie.image && movie.image.medium) {
+      img = movie.image.medium;
+    }
 
     const div = document.createElement("div");
     div.className = "card";
@@ -117,8 +136,8 @@ function renderMovies(movies) {
 
     const imgElement = div.querySelector(".card-img");
     if (imgElement) {
-      imgElement.addEventListener("click", function () {
-        window.location.href = "./details.html?id=" + movie.id;
+      imgElement.addEventListener("click", () => {
+        window.location.href = `./details.html?id=${movie.id}`;
       });
     }
 
