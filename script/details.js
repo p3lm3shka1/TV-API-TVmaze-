@@ -45,8 +45,9 @@ function loadCast() {
         showAllBtn.style.display = "none";
       });
     })
-    .catch((error) => {
-      console.error(error);
+    .catch((err) => {
+      statusText.textContent = "Error, try again later";
+      console.error(err);
     });
 }
 
@@ -78,8 +79,9 @@ function getMovieDetails() {
 `;
       loadCast();
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      statusText.textContent = "Error, try again later";
+      console.error(err);
     });
 }
 
